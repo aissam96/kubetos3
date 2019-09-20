@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: test-dep
-  labels: test-app
+  labels:
+    app: test-app
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: test-app
-    template:
-      metadata:
-        labels:
-          app: test-app
-      spec:
-        containers:
-        - name: test-source
-          image: ubuntu
-          volumeMounts:
-          - name: test-volumes
-          mountPath: /tmp
-        volumes:
-        - name: test-volume
-          hostPath:
-            path: /tmp/volume
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        volumeMounts:
+        - name: test-vol
+          mountPath: /tmp/logs
+      volumes:
+      - name: test-vol
+        hostPath:
+            path: /tmp/kubelogs
             type: DirectoryOrCreate
